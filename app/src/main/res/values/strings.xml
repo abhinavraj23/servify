@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">servify-app</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_proceed">Proceed with your</string>
+    <string name="email_id">Email ID</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="description"><![CDATA[<b>The Home Service:</b> helps you find the perfect person required to get the job done of your house old chorus.From requiring a cook to prepare your food to a maid for cleaning your houses, this app covers all of it. Just make sure to turn on your location services on and get benifitted from the best services available.]]></string>
+</resources>

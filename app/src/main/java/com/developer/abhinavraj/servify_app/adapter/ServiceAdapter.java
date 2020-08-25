@@ -1,0 +1,80 @@
+package com.developer.abhinavraj.servify_app.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.avatarfirst.avatargenlib.AvatarConstants;
+import com.avatarfirst.avatargenlib.AvatarGenerator;
+import com.developer.abhinavraj.servify_app.R;
+import com.developer.abhinavraj.servify_app.database.models.ServiceProvider;
+
+import java.util.List;
+
+public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
+
+    private List<ServiceProvider> serviceProviders;
+    private Context context;
+
+    public ServiceAdapter(Context context,List<ServiceProvider> serviceProviders) {
+        this.serviceProviders = serviceProviders;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View countryView = inflater.inflate(R.layout.service_item, parent, false);
+        return new ViewHolder(countryView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final ServiceProvider serviceProvider = serviceProviders.get(position);
+
+        ImageView profileImage = holder.profileImage;
+        TextView profileName = holder.profileName;
+        TextView profileAge = holder.profileAge;
+        TextView profileDistance = holder.profileDistance;
+        TextView profileRating = holder.profileRating;
+
+        profileImage.setImageDrawable(
+                AvatarGenerator.Companion.avatarImage(
+                        context, 200,
+                        AvatarConstants.Companion.getCIRCLE(),
+                        serviceProvider.getFirstName()
+                ));
+
+        profileName.setText(String.format("%s %s", serviceProvider.getFirstName(), serviceProvider.getLastName()));
+        profileAge.setText(serviceProvider.getAge());
+        profileDistance.setText(serviceProvider.getCity());
+        profileRating.setText(String.valueOf(serviceProvider.getRating()));
+    }
+
+    @Override
+    public int getItemCount() {
+        return serviceProviders.size();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView profileName, profileAge, profileDistance, profileRating;
+        ImageView profileImage;
+
+        ViewHolder(View view) {
+            super(view);
+            profileImage = view.findViewById(R.id.profile_image);
+            profileName = view.findViewById(R.id.profile_name);
+            profileAge = view.findViewById(R.id.profile_age);
+            profileDistance = view.findViewById(R.id.profile_distance);
+            profileRating = view.findViewById(R.id.profile_rating);
+        }
+    }
+}
