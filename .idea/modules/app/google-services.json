@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "829401153563",
+    "firebase_url": "https://servify-1faa3.firebaseio.com",
+    "project_id": "servify-1faa3",
+    "storage_bucket": "servify-1faa3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829401153563:android:08318b85f5c6cd3782b8be",
+        "android_client_info": {
+          "package_name": "com.developer.abhinavraj.servify_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829401153563-d07qh2jidl390sppncam1401otma8iaj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.developer.abhinavraj.servify_app",
+            "certificate_hash": "8cf68a15155a778d9370f78035b69ccf3131e0d7"
+          }
+        },
+        {
+          "client_id": "829401153563-q6ds9d3iibb5f0atjht2876puqqafpua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5e-bEjKh6MO5ixpqjBavlI2fNX6aoTRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829401153563-q6ds9d3iibb5f0atjht2876puqqafpua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
