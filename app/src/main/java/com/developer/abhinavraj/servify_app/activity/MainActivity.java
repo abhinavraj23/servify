@@ -8,8 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.activity.signUp.SignUpActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         login.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
         signUp.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SignUpActivity.class)));
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null)
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
     }
 }

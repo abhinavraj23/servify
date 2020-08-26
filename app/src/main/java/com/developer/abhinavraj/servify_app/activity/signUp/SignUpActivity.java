@@ -59,7 +59,12 @@ public class SignUpActivity extends AppCompatActivity {
                     && Utility.validateEmail(mEmail) && Utility.isValidMobile(mPhoneNumber);
 
             if (validate) {
-                String email = mAuth.getCurrentUser().getEmail();
+
+//                try {
+//                    String email = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
+//                } catch (NullPointerException e) {
+//                    System.out.println(e);
+//                }
                 String tempPass = mFirstName + "_" + mLastName;
                 final Map<String, Object> userMap = new HashMap<>();
                 userMap.put("first_name", mFirstName);
@@ -67,44 +72,40 @@ public class SignUpActivity extends AppCompatActivity {
                 userMap.put("age", mAge);
                 userMap.put("phone_number", mPhoneNumber);
 
-                Log.e("Debug", email);
-                if (email.isEmpty() || !email.equals(mEmail)) {
-                    Log.e("Debug", "Reached here");
+
+
                 /*if (mUserViewModel.getUser(mEmail) != null) {
 
                     Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
                 } else {*/
-                    mAuth.createUserWithEmailAndPassword(mEmail, tempPass)
-                            .addOnCompleteListener(SignUpActivity.this, task -> {
-                                if (task.isSuccessful()) {
-                                    Log.d(getApplicationContext().toString(), "createUserWithEmail:success");
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(mFirstName)
-                                            //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-                                            .build();
+                mAuth.createUserWithEmailAndPassword(mEmail, tempPass)
+                        .addOnCompleteListener(SignUpActivity.this, task -> {
+                            if (task.isSuccessful()) {
+                                Log.d(getApplicationContext().toString(), "createUserWithEmail:success");
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(mFirstName)
+                                        //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                                        .build();
 
-                                    mAuth.getCurrentUser().updateProfile(profileUpdates);
-                                    db.collection("customers").document(mEmail).set(userMap)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.d(getApplicationContext().toString(), "User profile updated.");
-                                                        startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
-                                                    }
+                                mAuth.getCurrentUser().updateProfile(profileUpdates);
+                                db.collection("customers").document(mEmail).set(userMap)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(getApplicationContext().toString(), "User profile updated.");
+                                                    startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
                                                 }
-                                            });
-                                    /*mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge)*/
-                                    //startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
+                                            }
+                                        });
+                                /*mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge)*/
+                                //startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
 
                                     /*mUserViewModel.updateDisplayName(getApplicationContext(), mFirstName);
 
                                  mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge);*/
-                                }
-                            });
-
-
-                }
+                            }
+                        });
             } else {
                 Utility.showInputError(getApplicationContext());
             }
