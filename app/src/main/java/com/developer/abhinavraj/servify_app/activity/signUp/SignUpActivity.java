@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -60,11 +61,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             if (validate) {
 
-//                try {
-//                    String email = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
-//                } catch (NullPointerException e) {
-//                    System.out.println(e);
-//                }
                 String tempPass = mFirstName + "_" + mLastName;
                 final Map<String, Object> userMap = new HashMap<>();
                 userMap.put("first_name", mFirstName);

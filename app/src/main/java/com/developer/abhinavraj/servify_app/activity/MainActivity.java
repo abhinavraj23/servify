@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
     @Override
@@ -31,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null)
+        if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            finish();
+        }
     }
 }
