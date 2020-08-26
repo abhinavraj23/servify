@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.activity.HomeActivity;
 import com.developer.abhinavraj.servify_app.database.models.Address;
-import com.developer.abhinavraj.servify_app.database.models.User;
 import com.developer.abhinavraj.servify_app.utils.Utility;
 import com.developer.abhinavraj.servify_app.viewModel.AddressViewModel;
 import com.developer.abhinavraj.servify_app.viewModel.UserViewModel;
@@ -65,16 +64,31 @@ public class PasswordActivity extends AppCompatActivity {
 
                     String email = mUser.getEmail();
                     assert email != null;
-                    User user = userViewModel.getUser(email);
+                   /* User user = userViewModel.getUser(email);
                     Map<String, Object> userMap = new HashMap<>();
                     userMap.put("first_name", user.getFirstName());
                     userMap.put("last_name", user.getLastName());
                     userMap.put("age", user.getAge());
-                    userMap.put("phone_number", user.getMobileNumber());
+                    userMap.put("phone_number", user.getMobileNumber());*/
 
                     DocumentReference ref = db.collection("customers").document(email);
+                    Address address = addressViewModel.getAddress(email);
 
-                    ref.set(userMap).addOnSuccessListener(aVoid -> {
+                    Map<String, Object> addressMap = new HashMap<>();
+                    addressMap.put("first_line", address.getAddressLine1());
+                    addressMap.put("second_line", address.getAddressLine2());
+                    addressMap.put("third_line", address.getAddressLine3());
+                    addressMap.put("postal_code", address.getPostalCode());
+                    addressMap.put("city", address.getCity());
+                    addressMap.put("state", address.getState());
+
+                    ref.collection("address").document(email).set(addressMap).addOnSuccessListener(mVoid -> {
+                        Log.d(TAG, "Address DocumentSnapshot added");
+                        startActivity(new Intent(PasswordActivity.this, HomeActivity.class));
+                    }).addOnFailureListener(e -> {
+                        Log.d(TAG, "Address DocumentSnapshot Failed");
+                    });
+/*                    ref.set(userMap).addOnSuccessListener(aVoid -> {
                         Log.d(TAG, "User DocumentSnapshot added");
 
                         Address address = addressViewModel.getAddress(email);
@@ -96,7 +110,7 @@ public class PasswordActivity extends AppCompatActivity {
 
                     }).addOnFailureListener(e -> {
                         Log.d(TAG, "User DocumentSnapshot Failed");
-                    });
+                    });*/
 
 
                 } else Utility.showInputError(getApplicationContext());
