@@ -59,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
                     && Utility.validateEmail(mEmail) && Utility.isValidMobile(mPhoneNumber);
 
             if (validate) {
+                String email = mAuth.getCurrentUser().getEmail();
                 String tempPass = mFirstName + "_" + mLastName;
                 final Map<String, Object> userMap = new HashMap<>();
                 userMap.put("first_name", mFirstName);
@@ -66,9 +67,9 @@ public class SignUpActivity extends AppCompatActivity {
                 userMap.put("age", mAge);
                 userMap.put("phone_number", mPhoneNumber);
 
-
-                if (mAuth.getCurrentUser().getEmail().equals(mEmail)) {
-
+                Log.e("Debug", email);
+                if (email.isEmpty() || !email.equals(mEmail)) {
+                    Log.e("Debug", "Reached here");
                 /*if (mUserViewModel.getUser(mEmail) != null) {
 
                     Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
@@ -77,8 +78,6 @@ public class SignUpActivity extends AppCompatActivity {
                             .addOnCompleteListener(SignUpActivity.this, task -> {
                                 if (task.isSuccessful()) {
                                     Log.d(getApplicationContext().toString(), "createUserWithEmail:success");
-
-
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(mFirstName)
                                             //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))

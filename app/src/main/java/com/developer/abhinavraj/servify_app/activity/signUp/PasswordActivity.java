@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,60 +60,12 @@ public class PasswordActivity extends AppCompatActivity {
                     mUser.updatePassword(mConfirmPassword).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Log.d(getApplicationContext().toString(), "User password updated.");
+                            startActivity(new Intent(PasswordActivity.this, HomeActivity.class));
+                            finish();
+                        } else{
+                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                     });
-
-                    String email = mUser.getEmail();
-                    assert email != null;
-                   /* User user = userViewModel.getUser(email);
-                    Map<String, Object> userMap = new HashMap<>();
-                    userMap.put("first_name", user.getFirstName());
-                    userMap.put("last_name", user.getLastName());
-                    userMap.put("age", user.getAge());
-                    userMap.put("phone_number", user.getMobileNumber());*/
-
-                    DocumentReference ref = db.collection("customers").document(email);
-                    Address address = addressViewModel.getAddress(email);
-
-                    Map<String, Object> addressMap = new HashMap<>();
-                    addressMap.put("first_line", address.getAddressLine1());
-                    addressMap.put("second_line", address.getAddressLine2());
-                    addressMap.put("third_line", address.getAddressLine3());
-                    addressMap.put("postal_code", address.getPostalCode());
-                    addressMap.put("city", address.getCity());
-                    addressMap.put("state", address.getState());
-
-                    ref.collection("address").document(email).set(addressMap).addOnSuccessListener(mVoid -> {
-                        Log.d(TAG, "Address DocumentSnapshot added");
-                        startActivity(new Intent(PasswordActivity.this, HomeActivity.class));
-                    }).addOnFailureListener(e -> {
-                        Log.d(TAG, "Address DocumentSnapshot Failed");
-                    });
-/*                    ref.set(userMap).addOnSuccessListener(aVoid -> {
-                        Log.d(TAG, "User DocumentSnapshot added");
-
-                        Address address = addressViewModel.getAddress(email);
-
-                        Map<String, Object> addressMap = new HashMap<>();
-                        addressMap.put("first_line", address.getAddressLine1());
-                        addressMap.put("second_line", address.getAddressLine2());
-                        addressMap.put("third_line", address.getAddressLine3());
-                        addressMap.put("postal_code", address.getPostalCode());
-                        addressMap.put("city", address.getCity());
-                        addressMap.put("state", address.getState());
-
-                        ref.collection("address").document(email).set(addressMap).addOnSuccessListener(mVoid -> {
-                            Log.d(TAG, "Address DocumentSnapshot added");
-                            startActivity(new Intent(PasswordActivity.this, HomeActivity.class));
-                        }).addOnFailureListener(e -> {
-                            Log.d(TAG, "Address DocumentSnapshot Failed");
-                        });
-
-                    }).addOnFailureListener(e -> {
-                        Log.d(TAG, "User DocumentSnapshot Failed");
-                    });*/
-
-
                 } else Utility.showInputError(getApplicationContext());
             } else Utility.showInputError(getApplicationContext());
         });
