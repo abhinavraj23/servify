@@ -57,6 +57,7 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:layout_marginTop="16dp"
             android:hint="Email"
             />
@@ -66,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:inputType="phone"
             android:hint="Phone Number"
             />
 
@@ -74,9 +76,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:inputType="number"
             android:hint="Age"
             />
-
 
         <Button
             android:id="@+id/next"
@@ -84,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
             android:background="@drawable/rounded"
             android:layout_marginBottom="10dp"
             android:text="Next"/>
