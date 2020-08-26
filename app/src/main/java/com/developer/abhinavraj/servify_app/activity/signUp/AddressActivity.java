@@ -68,7 +68,7 @@ public class AddressActivity extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), "Address already exists", Toast.LENGTH_SHORT).show();
 //                } else {
                     Address address = new Address(email, mFirstLine, mSecondLine, mThirdLine, mPostalCode, mCity, mState);
-                    db.collection("customers").document(mEmail).set(userMap);
+                   // db.collection("customers").document(mEmail).set(userMap);
                     startActivity(new Intent(AddressActivity.this, PasswordActivity.class));
 
             } else Utility.showInputError(getApplicationContext());

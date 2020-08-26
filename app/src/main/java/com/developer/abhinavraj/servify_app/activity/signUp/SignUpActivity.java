@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,13 +66,18 @@ public class SignUpActivity extends AppCompatActivity {
                 userMap.put("age", mAge);
                 userMap.put("phone_number", mPhoneNumber);
 
+
                 if (mAuth.getCurrentUser().getEmail().equals(mEmail)) {
+
+                /*if (mUserViewModel.getUser(mEmail) != null) {
+
                     Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
                     mAuth.createUserWithEmailAndPassword(mEmail, tempPass)
                             .addOnCompleteListener(SignUpActivity.this, task -> {
                                 if (task.isSuccessful()) {
                                     Log.d(getApplicationContext().toString(), "createUserWithEmail:success");
+
 
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(mFirstName)
@@ -90,19 +94,22 @@ public class SignUpActivity extends AppCompatActivity {
                                                         startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
                                                     }
                                                 }
-                                    });
+                                            });
                                     /*mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge)*/
                                     //startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
-                                } else {
-                                    Log.w(getApplicationContext().toString(), "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+
+                                    /*mUserViewModel.updateDisplayName(getApplicationContext(), mFirstName);
+
+                                 mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge);*/
                                 }
                             });
-//                }
-                }
-            } else Utility.showInputError(getApplicationContext());
 
+
+                }
+            } else {
+                Utility.showInputError(getApplicationContext());
+            }
         });
+
     }
 }

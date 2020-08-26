@@ -15,13 +15,7 @@
         <activity android:name=".activity.signUp.AddressActivity" />
         <activity android:name=".activity.signUp.SignUpActivity" />
         <activity
-            android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".activity.LoginActivity">
         </activity>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
@@ -37,17 +31,15 @@
 
         <meta-data
             android:name="com.google.android.wearable.standalone"
-            android:value="true" />
+            android:value="false" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <uses-library
             android:name="com.google.android.wearable"
-            android:required="true" />
+            android:required="false" />
     </application>
-
-    <uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 

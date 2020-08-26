@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public String TAG = getApplicationContext().toString();
     private FirebaseAuth mAuth;
     private EditText email;
     private EditText password;
@@ -26,6 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        String TAG = getApplicationContext().toString();
 
         mAuth = FirebaseAuth.getInstance();
 
