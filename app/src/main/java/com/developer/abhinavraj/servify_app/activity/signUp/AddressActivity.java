@@ -14,6 +14,7 @@ import com.developer.abhinavraj.servify_app.database.models.Address;
 import com.developer.abhinavraj.servify_app.utils.Utility;
 import com.developer.abhinavraj.servify_app.viewModel.AddressViewModel;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -27,8 +28,9 @@ public class AddressActivity extends AppCompatActivity {
     private EditText state;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
-    private AddressViewModel mViewModel;
+    //private AddressViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class AddressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_address);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         firstLine = findViewById(R.id.first_line);
         secondLine = findViewById(R.id.second_line);
@@ -44,7 +47,7 @@ public class AddressActivity extends AppCompatActivity {
         city = findViewById(R.id.city);
         state = findViewById(R.id.state);
 
-        mViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
+      //  mViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
 
         findViewById(R.id.next).setOnClickListener(view -> {
             String mFirstLine = firstLine.getText().toString();
@@ -61,13 +64,13 @@ public class AddressActivity extends AppCompatActivity {
                 String email = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
                 assert email != null;
 
-                if (mViewModel.getAddress(email) != null) {
-                    Toast.makeText(getApplicationContext(), "Address already exists", Toast.LENGTH_SHORT).show();
-                } else {
+//                if (mAuth.getCurrentUser().get != null) {
+//                    Toast.makeText(getApplicationContext(), "Address already exists", Toast.LENGTH_SHORT).show();
+//                } else {
                     Address address = new Address(email, mFirstLine, mSecondLine, mThirdLine, mPostalCode, mCity, mState);
-                    mViewModel.insert(address);
+                    db.collection("customers").document(mEmail).set(userMap);
                     startActivity(new Intent(AddressActivity.this, PasswordActivity.class));
-                }
+
             } else Utility.showInputError(getApplicationContext());
         });
     }

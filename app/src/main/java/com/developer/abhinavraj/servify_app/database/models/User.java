@@ -3,6 +3,7 @@ package com.developer.abhinavraj.servify_app.database.models;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
@@ -28,6 +29,7 @@ public class User {
     @ColumnInfo(name = "age")
     private String age;
 
+    @Ignore
     public User(@NonNull String email, String password) {
         this.email = email;
         this.password = password;
