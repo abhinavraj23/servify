@@ -52,15 +52,15 @@ public class SignUpActivity extends AppCompatActivity {
             if (validate) {
                 String tempPass = mFirstName + "_" + mLastName;
 
-                if (mUserViewModel.getUser(mEmail) != null) {
+                /*if (mUserViewModel.getUser(mEmail) != null) {
                     Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
                     mAuth.createUserWithEmailAndPassword(mEmail, tempPass)
                             .addOnCompleteListener(SignUpActivity.this, task -> {
                                 if (task.isSuccessful()) {
                                     Log.d(getApplicationContext().toString(), "createUserWithEmail:success");
-                                    mUserViewModel.updateDisplayName(getApplicationContext(), mFirstName);
-                                    mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge);
+                                    /*mUserViewModel.updateDisplayName(getApplicationContext(), mFirstName);
+                                    mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge);*/
                                     startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
                                 } else {
                                     Log.w(getApplicationContext().toString(), "createUserWithEmail:failure", task.getException());
@@ -68,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
-                }
+                //}
             } else Utility.showInputError(getApplicationContext());
 
         });

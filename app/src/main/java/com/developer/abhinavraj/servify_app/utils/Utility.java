@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Utility {
 
     public static boolean validateEmail(String email) {
-        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        return (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     public static boolean isValidMobile(String phone) {
