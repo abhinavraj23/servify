@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.activity;
+package com.developer.abhinavraj.servify_app.client.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

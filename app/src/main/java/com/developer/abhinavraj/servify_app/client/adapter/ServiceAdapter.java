@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.adapter;
+package com.developer.abhinavraj.servify_app.client.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.avatarfirst.avatargenlib.AvatarConstants;
 import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.database.models.ServiceProvider;
+import com.developer.abhinavraj.servify_app.client.database.models.ServiceProvider;
 
 import java.util.List;
 

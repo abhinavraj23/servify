@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.viewModel;
+package com.developer.abhinavraj.servify_app.client.viewModel;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.developer.abhinavraj.servify_app.database.models.User;
-import com.developer.abhinavraj.servify_app.repository.ServifyRepository;
+import com.developer.abhinavraj.servify_app.client.database.models.User;
+import com.developer.abhinavraj.servify_app.client.repository.ServifyRepository;
 
 public class UserViewModel extends AndroidViewModel {
 

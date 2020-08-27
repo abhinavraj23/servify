@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ProfileActivity">
+    tools:context=".client.activity.ProfileActivity">
+
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:progressBackgroundTint="@color/fui_buttonShadow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
@@ -80,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="@color/colorPrimary"
-            android:layout_below="@id/address"/>
+            android:layout_below="@id/address" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -166,7 +178,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="@color/colorPrimary"
-            android:layout_below="@id/membership"/>
+            android:layout_below="@id/membership" />
 
         <TextView
             android:id="@+id/membership_apply"
@@ -179,7 +191,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/light_rounded"
-            tools:text="Apply for Membership"/>
+            tools:text="Apply for Membership" />
 
     </RelativeLayout>
 

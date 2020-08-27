@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.database.models;
+package com.developer.abhinavraj.servify_app.client.database.models;
 
 import androidx.annotation.NonNull;
 

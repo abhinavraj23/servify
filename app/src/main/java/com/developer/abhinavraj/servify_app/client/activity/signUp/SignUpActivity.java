@@ -1,27 +1,26 @@
-package com.developer.abhinavraj.servify_app.activity.signUp;
+package com.developer.abhinavraj.servify_app.client.activity.signUp;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.utils.Utility;
-import com.developer.abhinavraj.servify_app.viewModel.UserViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.developer.abhinavraj.servify_app.client.utils.Utility;
+import com.developer.abhinavraj.servify_app.client.viewModel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -33,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private UserViewModel mUserViewModel;
     private FirebaseFirestore db;
+    private ProgressBar pgBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,10 @@ public class SignUpActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         phoneNumber = findViewById(R.id.phone_number);
         age = findViewById(R.id.age);
+        pgBar = findViewById(R.id.pBar);
 
         findViewById(R.id.next).setOnClickListener(view -> {
+            pgBar.setVisibility(View.VISIBLE);
             String mFirstName = firstName.getText().toString();
             String mLastName = lastName.getText().toString();
             String mEmail = email.getText().toString();
@@ -80,26 +82,19 @@ public class SignUpActivity extends AppCompatActivity {
                                 Log.d(getApplicationContext().toString(), "createUserWithEmail:success");
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(mFirstName)
-                                        //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
                                         .build();
 
                                 mAuth.getCurrentUser().updateProfile(profileUpdates);
                                 db.collection("customers").document(mEmail).set(userMap)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Log.d(getApplicationContext().toString(), "User profile updated.");
-                                                    startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
-                                                }
+                                        .addOnCompleteListener(task1 -> {
+                                            pgBar.setVisibility(View.INVISIBLE);
+                                            if (task1.isSuccessful()) {
+                                                Log.d(getApplicationContext().toString(), "User profile updated.");
+                                                startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
+                                            } else {
+                                                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
                                             }
                                         });
-                                /*mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge)*/
-                                //startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
-
-                                    /*mUserViewModel.updateDisplayName(getApplicationContext(), mFirstName);
-
-                                 mUserViewModel.createAndInsertUser(mEmail, tempPass, mFirstName, mLastName, mPhoneNumber, mAge);*/
                             }
                         });
             } else {

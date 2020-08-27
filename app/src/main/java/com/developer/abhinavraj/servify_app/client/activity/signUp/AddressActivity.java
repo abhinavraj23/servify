@@ -1,21 +1,16 @@
-package com.developer.abhinavraj.servify_app.activity.signUp;
+package com.developer.abhinavraj.servify_app.client.activity.signUp;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.database.models.Address;
-import com.developer.abhinavraj.servify_app.utils.Utility;
-import com.developer.abhinavraj.servify_app.viewModel.AddressViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.developer.abhinavraj.servify_app.client.database.models.Address;
+import com.developer.abhinavraj.servify_app.client.utils.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -29,6 +24,7 @@ public class AddressActivity extends AppCompatActivity {
     private EditText postalCode;
     private EditText city;
     private EditText state;
+    private ProgressBar pgsBar;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -49,8 +45,9 @@ public class AddressActivity extends AppCompatActivity {
         postalCode = findViewById(R.id.postal_code);
         city = findViewById(R.id.city);
         state = findViewById(R.id.state);
+        pgsBar = findViewById(R.id.pBar);
 
-      //  mViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
+        //  mViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
 
         findViewById(R.id.next).setOnClickListener(view -> {
             String mFirstLine = firstLine.getText().toString();
@@ -60,6 +57,7 @@ public class AddressActivity extends AppCompatActivity {
             String mCity = city.getText().toString();
             String mState = state.getText().toString();
 
+
             boolean validate = !TextUtils.isEmpty(mFirstLine) && !TextUtils.isEmpty(mPostalCode)
                     && !TextUtils.isEmpty(mCity) && !TextUtils.isEmpty(mState);
 
@@ -67,19 +65,12 @@ public class AddressActivity extends AppCompatActivity {
                 String email = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
                 assert email != null;
 
-//                if (mAuth.getCurrentUser().get != null) {
-//                    Toast.makeText(getApplicationContext(), "Address already exists", Toast.LENGTH_SHORT).show();
-//                } else {
-                    Address address = new Address(email, mFirstLine, mSecondLine, mThirdLine, mPostalCode, mCity, mState);
-                    String mEmail = mAuth.getCurrentUser().getEmail();
-                    db.collection("customers").document(mEmail).set(address)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            startActivity(new Intent(AddressActivity.this, PasswordActivity.class));
-                        }
-                    });
-                    startActivity(new Intent(AddressActivity.this, PasswordActivity.class));
+                Address address = new Address(email, mFirstLine, mSecondLine, mThirdLine, mPostalCode, mCity, mState);
+                String mEmail = mAuth.getCurrentUser().getEmail();
+
+                db.collection("customers").document(mEmail).set(address);
+                startActivity(new Intent(AddressActivity.this, PasswordActivity.class));
+                finish();
 
             } else Utility.showInputError(getApplicationContext());
         });

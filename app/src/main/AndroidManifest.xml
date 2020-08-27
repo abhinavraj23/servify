@@ -9,19 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ProfileActivity"></activity>
-        <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.signUp.PasswordActivity" />
-        <activity android:name=".activity.signUp.AddressActivity" />
-        <activity android:name=".activity.signUp.SignUpActivity" />
+        <activity android:name=".client.activity.ProfileActivity"/>
+        <activity android:name=".client.activity.HomeActivity" />
+        <activity android:name=".client.activity.signUp.PasswordActivity" />
+        <activity android:name=".client.activity.signUp.AddressActivity" />
+        <activity android:name=".client.activity.signUp.SignUpActivity" />
         <activity
-            android:name=".activity.LoginActivity">
+            android:name=".client.activity.LoginActivity">
         </activity>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".client.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

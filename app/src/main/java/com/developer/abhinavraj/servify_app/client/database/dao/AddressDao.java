@@ -1,12 +1,11 @@
-package com.developer.abhinavraj.servify_app.database.dao;
+package com.developer.abhinavraj.servify_app.client.database.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.developer.abhinavraj.servify_app.database.models.Address;
+import com.developer.abhinavraj.servify_app.client.database.models.Address;
 
 @Dao
 public interface AddressDao {

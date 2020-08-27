@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.repository;
+package com.developer.abhinavraj.servify_app.client.repository;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,11 +7,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import com.developer.abhinavraj.servify_app.database.ServifyDatabase;
-import com.developer.abhinavraj.servify_app.database.dao.AddressDao;
-import com.developer.abhinavraj.servify_app.database.dao.UserDao;
-import com.developer.abhinavraj.servify_app.database.models.Address;
-import com.developer.abhinavraj.servify_app.database.models.User;
+import com.developer.abhinavraj.servify_app.client.database.ServifyDatabase;
+import com.developer.abhinavraj.servify_app.client.database.dao.AddressDao;
+import com.developer.abhinavraj.servify_app.client.database.dao.UserDao;
+import com.developer.abhinavraj.servify_app.client.database.models.Address;
+import com.developer.abhinavraj.servify_app.client.database.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

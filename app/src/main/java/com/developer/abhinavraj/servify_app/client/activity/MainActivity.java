@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.activity;
+package com.developer.abhinavraj.servify_app.client.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.activity.signUp.SignUpActivity;
+import com.developer.abhinavraj.servify_app.client.activity.signUp.SignUpActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;

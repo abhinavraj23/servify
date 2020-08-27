@@ -1,4 +1,4 @@
-package com.developer.abhinavraj.servify_app.database;
+package com.developer.abhinavraj.servify_app.client.database;
 
 import android.content.Context;
 
@@ -6,10 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.developer.abhinavraj.servify_app.database.dao.AddressDao;
-import com.developer.abhinavraj.servify_app.database.dao.UserDao;
-import com.developer.abhinavraj.servify_app.database.models.Address;
-import com.developer.abhinavraj.servify_app.database.models.User;
+import com.developer.abhinavraj.servify_app.client.database.dao.AddressDao;
+import com.developer.abhinavraj.servify_app.client.database.dao.UserDao;
+import com.developer.abhinavraj.servify_app.client.database.models.Address;
+import com.developer.abhinavraj.servify_app.client.database.models.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

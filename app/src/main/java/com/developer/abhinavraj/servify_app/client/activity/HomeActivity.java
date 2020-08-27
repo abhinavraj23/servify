@@ -1,8 +1,10 @@
-package com.developer.abhinavraj.servify_app.activity;
+package com.developer.abhinavraj.servify_app.client.activity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -10,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.adapter.ServiceAdapter;
-import com.developer.abhinavraj.servify_app.database.models.ServiceProvider;
+import com.developer.abhinavraj.servify_app.client.adapter.ServiceAdapter;
+import com.developer.abhinavraj.servify_app.client.database.models.ServiceProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -40,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(serviceAdapter);
 
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(Html.fromHtml(getResources().getString(R.string.description),Html.FROM_HTML_MODE_LEGACY));
+
         findViewById(R.id.maid).setOnClickListener(onServiceClicked("maids"));
         findViewById(R.id.cleaner).setOnClickListener(onServiceClicked("house_cleaners"));
         findViewById(R.id.cook).setOnClickListener(onServiceClicked("cooks"));
@@ -52,8 +57,11 @@ public class HomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     serviceProviderList.clear();
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        /*
                         ServiceProvider serviceProvider = document.toObject(ServiceProvider.class);
                         serviceProviderList.add(serviceProvider);
+                        */
+                        System.out.println(document.getData());
                     }
                     serviceAdapter.notifyDataSetChanged();
                 } else {

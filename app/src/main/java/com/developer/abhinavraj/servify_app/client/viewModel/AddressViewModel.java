@@ -1,14 +1,12 @@
-package com.developer.abhinavraj.servify_app.viewModel;
+package com.developer.abhinavraj.servify_app.client.viewModel;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
-import com.developer.abhinavraj.servify_app.database.models.Address;
-import com.developer.abhinavraj.servify_app.database.models.User;
-import com.developer.abhinavraj.servify_app.repository.ServifyRepository;
+import com.developer.abhinavraj.servify_app.client.database.models.Address;
+import com.developer.abhinavraj.servify_app.client.repository.ServifyRepository;
 
 public class AddressViewModel extends AndroidViewModel {
 

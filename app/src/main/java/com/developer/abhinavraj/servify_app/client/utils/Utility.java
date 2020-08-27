@@ -1,7 +1,6 @@
-package com.developer.abhinavraj.servify_app.utils;
+package com.developer.abhinavraj.servify_app.client.utils;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.Toast;
 
