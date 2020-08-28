@@ -39,6 +39,8 @@ public class ServiceProvider {
     @ColumnInfo(name = "gender")
     private String gender;
 
+    public ServiceProvider () {}
+
     public ServiceProvider(@NotNull String email,
                            String firstName,
                            String lastName,
@@ -56,6 +58,22 @@ public class ServiceProvider {
         this.rating = rating;
         this.service = service;
         this.gender = gender;
+    }
+
+    public ServiceProvider(@NotNull String email,
+                           String firstName,
+                           String lastName,
+                           String mobileNumber,
+                           String age,
+                           String city,
+                           double rating) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobileNumber = mobileNumber;
+        this.age = age;
+        this.city = city;
+        this.rating = rating;
     }
 
     @NonNull

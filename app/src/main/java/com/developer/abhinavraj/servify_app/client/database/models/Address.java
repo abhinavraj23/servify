@@ -29,6 +29,8 @@ public class Address {
     @ColumnInfo(name = "email")
     private String email;
 
+    public Address () {}
+
     public Address(
             @NonNull String email,
             @NonNull String addressLine1,
