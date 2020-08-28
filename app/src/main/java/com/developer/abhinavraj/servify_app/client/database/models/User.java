@@ -23,11 +23,13 @@ public class User {
     @ColumnInfo(name = "password")
     private String password;
 
-    @ColumnInfo(name = "mobile_number")
-    private String mobileNumber;
+    @ColumnInfo(name = "phone_number")
+    private String phoneNumber;
 
     @ColumnInfo(name = "age")
     private String age;
+
+    public User () {}
 
     @Ignore
     public User(@NonNull String email, String password) {
@@ -39,13 +41,25 @@ public class User {
                 String password,
                 String firstName,
                 String lastName,
-                String mobileNumber,
+                String phoneNumber,
                 String age) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.mobileNumber = mobileNumber;
+        this.phoneNumber = phoneNumber;
+        this.age = age;
+    }
+
+    public User(@NonNull String email,
+                String firstName,
+                String lastName,
+                String phoneNumber,
+                String age) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.age = age;
     }
 
@@ -74,12 +88,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setPhoneNumber(String mobileNumber) {
+        this.phoneNumber = mobileNumber;
     }
 
     public String getAge() {

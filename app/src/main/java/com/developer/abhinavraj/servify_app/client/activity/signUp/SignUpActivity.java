@@ -13,14 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.developer.abhinavraj.servify_app.R;
+import com.developer.abhinavraj.servify_app.client.database.models.User;
 import com.developer.abhinavraj.servify_app.client.utils.Utility;
 import com.developer.abhinavraj.servify_app.client.viewModel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -51,7 +49,6 @@ public class SignUpActivity extends AppCompatActivity {
         pgBar = findViewById(R.id.pBar);
 
         findViewById(R.id.next).setOnClickListener(view -> {
-            pgBar.setVisibility(View.VISIBLE);
             String mFirstName = firstName.getText().toString();
             String mLastName = lastName.getText().toString();
             String mEmail = email.getText().toString();
@@ -62,15 +59,9 @@ public class SignUpActivity extends AppCompatActivity {
                     && Utility.validateEmail(mEmail) && Utility.isValidMobile(mPhoneNumber);
 
             if (validate) {
-
+                pgBar.setVisibility(View.VISIBLE);
                 String tempPass = mFirstName + "_" + mLastName;
-                final Map<String, Object> userMap = new HashMap<>();
-                userMap.put("first_name", mFirstName);
-                userMap.put("last_name", mLastName);
-                userMap.put("age", mAge);
-                userMap.put("phone_number", mPhoneNumber);
-
-
+                User user = new User(mEmail, mFirstName, mLastName, mPhoneNumber, mAge);
 
                 /*if (mUserViewModel.getUser(mEmail) != null) {
 
@@ -85,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         .build();
 
                                 mAuth.getCurrentUser().updateProfile(profileUpdates);
-                                db.collection("customers").document(mEmail).set(userMap)
+                                db.collection("customers").document(mEmail).set(user)
                                         .addOnCompleteListener(task1 -> {
                                             pgBar.setVisibility(View.INVISIBLE);
                                             if (task1.isSuccessful()) {
