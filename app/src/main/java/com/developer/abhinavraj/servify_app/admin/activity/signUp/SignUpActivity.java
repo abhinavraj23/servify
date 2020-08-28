@@ -13,14 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.developer.abhinavraj.servify_app.R;
+import com.developer.abhinavraj.servify_app.admin.database.models.ServiceProvider;
 import com.developer.abhinavraj.servify_app.client.utils.Utility;
 import com.developer.abhinavraj.servify_app.client.viewModel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -29,6 +27,8 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText email;
     private EditText phoneNumber;
     private EditText age;
+    private EditText gender;
+    private EditText service;
     private FirebaseAuth mAuth;
     private UserViewModel mUserViewModel;
     private FirebaseFirestore db;
@@ -49,6 +49,8 @@ public class SignUpActivity extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phone_number);
         age = findViewById(R.id.age);
         pgBar = findViewById(R.id.pBar);
+        service = findViewById(R.id.service);
+        gender = findViewById(R.id.gender);
 
         findViewById(R.id.next).setOnClickListener(view -> {
             pgBar.setVisibility(View.VISIBLE);
@@ -57,20 +59,19 @@ public class SignUpActivity extends AppCompatActivity {
             String mEmail = email.getText().toString();
             String mPhoneNumber = phoneNumber.getText().toString();
             String mAge = age.getText().toString();
+            String mService = service.getText().toString();
+            String mGender = gender.getText().toString();
 
-            boolean validate = !TextUtils.isEmpty(mFirstName) && !TextUtils.isEmpty(mLastName)
-                    && Utility.validateEmail(mEmail) && Utility.isValidMobile(mPhoneNumber);
+            boolean validate =
+                    !TextUtils.isEmpty(mFirstName) && !TextUtils.isEmpty(mLastName) && !TextUtils.isEmpty(mService) && !TextUtils.isEmpty(mAge)
+                            && !TextUtils.isEmpty(mGender)
+                            && Utility.validateEmail(mEmail) && Utility.isValidMobile(mPhoneNumber);
 
             if (validate) {
 
                 String tempPass = mFirstName + "_" + mLastName;
-                final Map<String, Object> userMap = new HashMap<>();
-                userMap.put("first_name", mFirstName);
-                userMap.put("last_name", mLastName);
-                userMap.put("age", mAge);
-                userMap.put("phone_number", mPhoneNumber);
-
-
+                ServiceProvider serviceProvider = new ServiceProvider(mEmail, mFirstName, mFirstName
+                        , mPhoneNumber, mAge, 0, mService, mGender);
 
                 /*if (mUserViewModel.getUser(mEmail) != null) {
 
@@ -85,7 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         .build();
 
                                 mAuth.getCurrentUser().updateProfile(profileUpdates);
-                                db.collection("customers").document(mEmail).set(userMap)
+                                db.collection("service_provider").document(mEmail).set(serviceProvider)
                                         .addOnCompleteListener(task1 -> {
                                             pgBar.setVisibility(View.INVISIBLE);
                                             if (task1.isSuccessful()) {

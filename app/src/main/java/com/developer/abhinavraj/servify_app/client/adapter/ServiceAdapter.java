@@ -55,7 +55,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         profileName.setText(String.format("%s %s", serviceProvider.getFirstName(), serviceProvider.getLastName()));
         profileAge.setText(serviceProvider.getAge());
-        profileDistance.setText(serviceProvider.getCity());
+        profileDistance.setText(0);
         profileRating.setText(String.valueOf(serviceProvider.getRating()));
     }
 
