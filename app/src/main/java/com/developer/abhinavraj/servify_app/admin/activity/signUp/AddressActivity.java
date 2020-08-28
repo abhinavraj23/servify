@@ -67,7 +67,7 @@ public class AddressActivity extends AppCompatActivity {
                 Address address = new Address(email, mFirstLine, mSecondLine, mThirdLine, mPostalCode, mCity, mState);
                 String mEmail = mAuth.getCurrentUser().getEmail();
 
-                db.collection("customers").document(mEmail).set(address);
+                db.collection("service_providers").document(mEmail).collection("address").document(mEmail).set(address);
                 startActivity(new Intent(AddressActivity.this, PasswordActivity.class));
                 finish();
 

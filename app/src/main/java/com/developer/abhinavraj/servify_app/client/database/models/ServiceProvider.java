@@ -46,7 +46,6 @@ public class ServiceProvider {
                            String lastName,
                            String mobileNumber,
                            String age,
-                           String city,
                            double rating,
                            String service,
                            String gender) {

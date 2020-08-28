@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
-    tools:context=".client.activity.signUp.AddressActivity">
+    tools:context=".client.activity.signUp.SignUpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:progressBackgroundTint="@color/fui_buttonShadow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,61 +36,71 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_proceed"
                 android:layout_marginTop="10dp"
+                android:text="@string/login_proceed"
                 android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address"
+                android:text="@string/sign_up"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/first_line"
+                android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="First Line" />
+                android:hint="First Name" />
 
             <EditText
-                android:id="@+id/second_line"
+                android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Second Line" />
-
+                android:hint="Last Name" />
 
             <EditText
-                android:id="@+id/third_line"
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="16dp"
+                android:hint="Email" />
+
+            <EditText
+                android:id="@+id/phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Third Line" />
+                android:inputType="phone"
+                android:hint="Phone Number" />
 
             <EditText
-                android:id="@+id/postal_code"
+                android:id="@+id/age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:inputType="number"
-                android:layout_marginTop="16dp"
-                android:hint="Postal Code" />
+                android:hint="Age" />
 
             <EditText
-                android:id="@+id/city"
+                android:id="@+id/service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="City" />
+                android:inputType="number"
+                android:hint="Service" />
 
             <EditText
-                android:id="@+id/state"
+                android:id="@+id/gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="State" />
+                android:inputType="number"
+                android:hint="Gender" />
 
             <Button
                 android:id="@+id/next"
@@ -99,8 +108,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/rounded"
                 android:textColor="@android:color/white"
+                android:background="@drawable/rounded"
                 android:layout_marginBottom="10dp"
                 android:text="Next" />
 

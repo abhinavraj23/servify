@@ -49,20 +49,27 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         TextView profileDistance = holder.profileDistance;
         TextView profileRating = holder.profileRating;
 
-        String mFirstName = serviceProvider.getFirstName();
-        String mLastName = serviceProvider.getLastName();
-        String mProfileName = mFirstName + " " + mLastName;
-        profileName.setText(mProfileName);
-        profileAge.setText(serviceProvider.getAge());
-        profileDistance.setText(serviceProvider.getCity());
-        profileRating.setText(String.valueOf(serviceProvider.getRating()));
+//        String mFirstName = serviceProvider.getFirstName();
+//        String mLastName = serviceProvider.getLastName();
+//        String mProfileName = mFirstName + " " + mLastName;
+//        profileName.setText(mProfileName);
+//        profileAge.setText(serviceProvider.getAge());
+//        profileDistance.setText(serviceProvider.getCity());
+//        profileRating.setText(String.valueOf(serviceProvider.getRating()));
 
         /*profileImage.setImageDrawable(
                 AvatarGenerator.Companion.avatarImage(
                         context, 200,
                         AvatarConstants.Companion.getCIRCLE(),
                         serviceProvider.getFirstName()
-                ));*/
+                ));
+
+         */
+
+        profileName.setText(String.format("%s %s", serviceProvider.getFirstName(), serviceProvider.getLastName()));
+        profileAge.setText(serviceProvider.getAge());
+        profileDistance.setText(0);
+        profileRating.setText(String.valueOf(serviceProvider.getRating()));
     }
 
     @Override

@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.client.activity.HomeActivity;
+import com.developer.abhinavraj.servify_app.admin.activity.HomeActivity;
 import com.developer.abhinavraj.servify_app.client.utils.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
