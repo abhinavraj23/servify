@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up_admin);
 
         mAuth = FirebaseAuth.getInstance();
         mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -86,7 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         .build();
 
                                 mAuth.getCurrentUser().updateProfile(profileUpdates);
-                                db.collection("service_provider").document(mEmail).set(serviceProvider)
+                                db.collection("service_providers").document(mEmail).set(serviceProvider)
                                         .addOnCompleteListener(task1 -> {
                                             pgBar.setVisibility(View.INVISIBLE);
                                             if (task1.isSuccessful()) {

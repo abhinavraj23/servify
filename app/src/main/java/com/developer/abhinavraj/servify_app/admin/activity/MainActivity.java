@@ -7,9 +7,9 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.developer.abhinavraj.servify_app.R;
-import com.developer.abhinavraj.servify_app.client.activity.HomeActivity;
-import com.developer.abhinavraj.servify_app.client.activity.LoginActivity;
-import com.developer.abhinavraj.servify_app.client.activity.signUp.SignUpActivity;
+import com.developer.abhinavraj.servify_app.admin.activity.HomeActivity;
+import com.developer.abhinavraj.servify_app.admin.activity.LoginActivity;
+import com.developer.abhinavraj.servify_app.admin.activity.signUp.SignUpActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
