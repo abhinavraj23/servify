@@ -113,5 +113,4 @@
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/service_item" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
