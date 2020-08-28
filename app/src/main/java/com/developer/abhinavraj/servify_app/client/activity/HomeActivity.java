@@ -1,12 +1,15 @@
 package com.developer.abhinavraj.servify_app.client.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +37,16 @@ public class HomeActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         serviceProviderList = new ArrayList<>();
         serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TextView appBarTitle = findViewById(R.id.app_bar_title);
+        appBarTitle.setText(R.string.app_name);
+
+        Button profileBtn = findViewById(R.id.profileBtn);
+        profileBtn.setVisibility(View.VISIBLE);
+        profileBtn.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, ProfileActivity.class)));
 
         db = FirebaseFirestore.getInstance();
 
