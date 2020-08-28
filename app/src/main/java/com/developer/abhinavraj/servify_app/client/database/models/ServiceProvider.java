@@ -34,10 +34,10 @@ public class ServiceProvider {
     private double rating;
 
     @ColumnInfo(name = "service")
-    private Service service;
+    private String service;
 
     @ColumnInfo(name = "gender")
-    private Gender gender;
+    private String gender;
 
     public ServiceProvider () {}
 
@@ -48,8 +48,8 @@ public class ServiceProvider {
                            String age,
                            String city,
                            double rating,
-                           Service service,
-                           Gender gender) {
+                           String service,
+                           String gender) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -134,19 +134,19 @@ public class ServiceProvider {
         this.rating = rating;
     }
 
-    public Service getService() {
+    public String getService() {
         return service;
     }
 
-    public void setService(Service service) {
+    public void setService(String service) {
         this.service = service;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 }
