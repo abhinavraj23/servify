@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,8 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.client.adapter.ServiceAdapter;
 import com.developer.abhinavraj.servify_app.client.database.models.ServiceProvider;
+import com.developer.abhinavraj.servify_app.client.database.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
     private ServiceAdapter serviceAdapter;
     private List<ServiceProvider> serviceProviderList;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,60 +63,76 @@ public class HomeActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, ProfileActivity.class)));
 
         TextView textView = findViewById(R.id.textView);
-        textView.setText(Html.fromHtml(getResources().getString(R.string.description),Html.FROM_HTML_MODE_LEGACY));
+        textView.setText(Html.fromHtml(getResources().getString(R.string.description), Html.FROM_HTML_MODE_LEGACY));
 
         findViewById(R.id.maid).setOnClickListener(onServiceClicked("maids"));
         findViewById(R.id.cleaner).setOnClickListener(onServiceClicked("house_cleaners"));
         findViewById(R.id.cook).setOnClickListener(onServiceClicked("cooks"));
         findViewById(R.id.gardener).setOnClickListener(onServiceClicked("gardeners"));
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        String mEmail = mAuth.getCurrentUser().getEmail();
+
+        db.collection("customers").document(mEmail).get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    assert documentSnapshot != null;
+                    user = documentSnapshot.toObject(User.class);
+                });
+
 
         serviceProviderList = new ArrayList<>();
-        db.collection("house_cleaners").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot doc : task.getResult()){
-                        ServiceProvider serviceProvider = doc.toObject(ServiceProvider.class);
-                        serviceProviderList.add(serviceProvider);
-                    }
 
-                    serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList, new ServiceAdapter.BookListener() {
-                        @Override
-                        public void OnClick(View v, int position) {
-                            AlertDialog dialog;
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
-                            alertDialog.setTitle(serviceProviderList.get(position).getFirstName());
-                            alertDialog.setMessage("Do you want to Book the Service Provider?");
-                            alertDialog.setCancelable(true);
-                            alertDialog.setPositiveButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //Add to database or something like that TODO
-                                }
-                            });
-
-                            dialog = alertDialog.create();
-                            dialog.show();
-                        }
-                    });
-
-                    recyclerView.setAdapter(serviceAdapter);
-                }
-            }
-        });
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList, new ServiceAdapter.BookListener() {
+            @Override
+            public void OnClick(View v, int position) {
+                AlertDialog dialog;
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+                alertDialog.setTitle(serviceProviderList.get(position).getFirstName());
+                alertDialog.setMessage("Do you want to Book the Service Provider?");
+                alertDialog.setCancelable(true);
+                alertDialog.setPositiveButton("No", (dialog1, which) -> dialog1.dismiss());
+                String serviceEmail = serviceProviderList.get(position).getEmail();
+
+                alertDialog.setNegativeButton("Yes", (dialog12, which) -> {
+                    //Add to database or something like that TODO
+                    db.collection("service_providers").document(serviceEmail).collection("current_user").get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if(!queryDocumentSnapshots.isEmpty()) {
+                                    queryDocumentSnapshots.forEach(queryDocumentSnapshot -> {
+                                        if (queryDocumentSnapshot.get("email") != mEmail) {
+                                            Toast.makeText(HomeActivity.this, "Service Provider is currently not available", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else{
+                                    db.collection("service_providers").document(serviceEmail).collection("current_user")
+                                            .document(mEmail).set(user).addOnCompleteListener(task ->
+                                            Toast.makeText(HomeActivity.this, "Booking successfully completed!", Toast.LENGTH_SHORT).show());
+                                }
+                            });
+                });
+
+                dialog = alertDialog.create();
+                dialog.show();
+            }
+        });
+
         recyclerView.setAdapter(serviceAdapter);
+
+        db.collection("service_providers").whereEqualTo("service", "1").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    ServiceProvider serviceProvider = doc.toObject(ServiceProvider.class);
+                    serviceProviderList.add(serviceProvider);
+                }
+                serviceAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private View.OnClickListener onServiceClicked(String serviceName) {
