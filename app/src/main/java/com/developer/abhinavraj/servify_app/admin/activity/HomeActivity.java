@@ -11,12 +11,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.wear.widget.CircledImageView;
 
 import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.admin.database.models.User;
-import com.developer.abhinavraj.servify_app.client.activity.MainActivity;
-import com.developer.abhinavraj.servify_app.client.activity.ProfileActivity;
 import com.developer.abhinavraj.servify_app.client.database.models.Address;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView prompt;
     private String email;
     private String currentUserId;
+    private ConstraintLayout parent;
 
     private String TAG = "HomeActivity.class";
 
@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_admin);
         pgsBar = findViewById(R.id.pBar);
+        parent = findViewById(R.id.profile_parent);
         name = findViewById(R.id.profile_name);
         age = findViewById(R.id.profile_age);
         phNumber = findViewById(R.id.profile_number);
@@ -80,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
             pgsBar.setVisibility(View.INVISIBLE);
             if (task.isSuccessful()) {
                 if (task.getResult().size() == 0) {
+                    parent.setVisibility(View.INVISIBLE);
                     prompt.setVisibility(View.VISIBLE);
                 } else if (task.getResult().size() == 1) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -88,6 +90,7 @@ public class HomeActivity extends AppCompatActivity {
                         setUserProfile(user);
                     }
                 } else {
+                    parent.setVisibility(View.INVISIBLE);
                     prompt.setVisibility(View.VISIBLE);
                 }
             } else {

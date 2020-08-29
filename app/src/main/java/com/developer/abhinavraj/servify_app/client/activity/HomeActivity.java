@@ -1,16 +1,14 @@
 package com.developer.abhinavraj.servify_app.client.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,19 +20,13 @@ import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.client.adapter.ServiceAdapter;
 import com.developer.abhinavraj.servify_app.client.database.models.ServiceProvider;
 import com.developer.abhinavraj.servify_app.client.database.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -88,68 +80,73 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList, new ServiceAdapter.BookListener() {
-            @Override
-            public void OnClick(View v, int position) {
-                AlertDialog dialog;
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
-                alertDialog.setTitle(serviceProviderList.get(position).getFirstName());
-                alertDialog.setMessage("Do you want to Book the Service Provider?");
-                alertDialog.setCancelable(true);
-                alertDialog.setPositiveButton("No", (dialog1, which) -> dialog1.dismiss());
-                String serviceEmail = serviceProviderList.get(position).getEmail();
+        serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList, (v, position) -> {
+            AlertDialog dialog;
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+            alertDialog.setTitle(serviceProviderList.get(position).getFirstName());
+            alertDialog.setMessage("Do you want to Book the Service Provider?");
+            alertDialog.setCancelable(true);
+            alertDialog.setPositiveButton("No", (dialog1, which) -> dialog1.dismiss());
+            String serviceEmail = serviceProviderList.get(position).getEmail();
 
-                alertDialog.setNegativeButton("Yes", (dialog12, which) -> {
-                    //Add to database or something like that TODO
-                    db.collection("service_providers").document(serviceEmail).collection("current_user").get()
-                            .addOnSuccessListener(queryDocumentSnapshots -> {
-                                if(!queryDocumentSnapshots.isEmpty()) {
-                                    queryDocumentSnapshots.forEach(queryDocumentSnapshot -> {
-                                        if (queryDocumentSnapshot.get("email") != mEmail) {
-                                            Toast.makeText(HomeActivity.this, "Service Provider is currently not available", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                } else{
-                                    db.collection("service_providers").document(serviceEmail).collection("current_user")
-                                            .document(mEmail).set(user).addOnCompleteListener(task ->
-                                            Toast.makeText(HomeActivity.this, "Booking successfully completed!", Toast.LENGTH_SHORT).show());
-                                }
-                            });
-                });
+            alertDialog.setNegativeButton("Yes", (dialog12, which) -> {
+                //Add to database or something like that TODO
+                db.collection("service_providers").document(serviceEmail).collection("current_user").get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                queryDocumentSnapshots.forEach(queryDocumentSnapshot -> {
+                                    if (queryDocumentSnapshot.get("email") != mEmail) {
+                                        Toast.makeText(HomeActivity.this, "Service Provider is currently not available", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                db.collection("service_providers").document(serviceEmail).collection("current_user")
+                                        .document(mEmail).set(user).addOnCompleteListener(task ->
+                                        Toast.makeText(HomeActivity.this, "Booking successfully completed!", Toast.LENGTH_SHORT).show());
+                            }
+                        });
+            });
 
-                dialog = alertDialog.create();
-                dialog.show();
-            }
+            dialog = alertDialog.create();
+            dialog.show();
         });
 
         recyclerView.setAdapter(serviceAdapter);
-
-        db.collection("service_providers").whereEqualTo("service", "1").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot doc : task.getResult()) {
-                    ServiceProvider serviceProvider = doc.toObject(ServiceProvider.class);
-                    serviceProviderList.add(serviceProvider);
-                }
-                serviceAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     private View.OnClickListener onServiceClicked(String serviceName) {
         return view -> {
-            db.collection(serviceName).get().addOnCompleteListener(task -> {
+            serviceProviderList.clear();
+            serviceAdapter.notifyDataSetChanged();
+            findViewById(R.id.maid).setBackgroundColor(getColor(R.color.lightRed));
+            findViewById(R.id.cleaner).setBackgroundColor(getColor(R.color.lightRed));
+            findViewById(R.id.cook).setBackgroundColor(getColor(R.color.lightRed));
+            findViewById(R.id.gardener).setBackgroundColor(getColor(R.color.lightRed));
+            view.setBackgroundColor(Color.WHITE);
+
+            String serviceMap;
+            switch (serviceName) {
+                case "maids":
+                    serviceMap = "1";
+                    break;
+                case "gardeners":
+                    serviceMap = "2";
+                    break;
+                case "cooks":
+                    serviceMap = "3";
+                    break;
+                default:
+                    serviceMap = "4";
+                    break;
+            }
+
+            db.collection("service_providers").whereEqualTo("service", serviceMap).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    serviceProviderList.clear();
-                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                        /*
-                        ServiceProvider serviceProvider = document.toObject(ServiceProvider.class);
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ServiceProvider serviceProvider = doc.toObject(ServiceProvider.class);
                         serviceProviderList.add(serviceProvider);
-                        */
-                        System.out.println(document.getData());
                     }
                     serviceAdapter.notifyDataSetChanged();
-                } else {
-                    Log.d(getApplicationContext().toString(), "Error getting documents: ", task.getException());
                 }
             });
         };
