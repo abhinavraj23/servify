@@ -1,6 +1,7 @@
 package com.developer.abhinavraj.servify_app.admin.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,10 +10,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.wear.widget.CircledImageView;
 
 import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.admin.database.models.User;
+import com.developer.abhinavraj.servify_app.client.activity.MainActivity;
+import com.developer.abhinavraj.servify_app.client.activity.ProfileActivity;
 import com.developer.abhinavraj.servify_app.client.database.models.Address;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,10 +60,21 @@ public class HomeActivity extends AppCompatActivity {
         prompt = findViewById(R.id.no_user);
 
         db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         email = mUser.getEmail();
         final CollectionReference docRef = db.collection("service_provider").document(email).
                 collection("current_user");
+
+        Toolbar toolbar = findViewById(R.id.toolbar_admin);
+        setSupportActionBar(toolbar);
+
+        TextView appBarTitle = findViewById(R.id.app_bar_title);
+        appBarTitle.setText(R.string.app_name);
+
+        Button logoutBtn = findViewById(R.id.logoutBtn_admin);
+        logoutBtn.setVisibility(View.VISIBLE);
+        logoutBtn.setOnClickListener(v -> signOut(mAuth));
 
         docRef.get().addOnCompleteListener(task -> {
             pgsBar.setVisibility(View.INVISIBLE);
@@ -97,6 +112,13 @@ public class HomeActivity extends AppCompatActivity {
             if (currentUserId != null)
                 docRef.document(currentUserId).delete();
         });
+    }
+
+    public void signOut(FirebaseAuth mAuth){
+        mAuth.signOut();
+        Intent i = new Intent(HomeActivity.this, MainActivity.class);
+        finish();
+        startActivity(i);
     }
 
     @SuppressLint("SetTextI18n")
