@@ -44,6 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
+        TextView membershipApply = findViewById(R.id.membership_apply);
+
+        membershipApply.setOnClickListener(view -> {
+            membershipApply.setText("Membership activated");
+        });
+
         String mEmail = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
 
         TextView profileName = findViewById(R.id.profile_name);
