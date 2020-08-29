@@ -70,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
             if (validate) {
 
                 String tempPass = mFirstName + "_" + mLastName;
-                ServiceProvider serviceProvider = new ServiceProvider(mEmail, mFirstName, mFirstName
+                ServiceProvider serviceProvider = new ServiceProvider(mEmail, mFirstName, mLastName
                         , mPhoneNumber, mAge, 0, mService, mGender);
 
                 /*if (mUserViewModel.getUser(mEmail) != null) {
