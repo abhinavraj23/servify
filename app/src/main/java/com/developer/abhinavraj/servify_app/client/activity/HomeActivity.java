@@ -121,7 +121,24 @@ public class HomeActivity extends AppCompatActivity {
             findViewById(R.id.cook).setBackgroundColor(getColor(R.color.lightRed));
             findViewById(R.id.gardener).setBackgroundColor(getColor(R.color.lightRed));
             view.setBackgroundColor(Color.WHITE);
-            db.collection("service_providers").whereEqualTo("service", serviceName).get().addOnCompleteListener(task -> {
+
+            String serviceMap;
+            switch (serviceName) {
+                case "maids":
+                    serviceMap = "1";
+                    break;
+                case "gardeners":
+                    serviceMap = "2";
+                    break;
+                case "cooks":
+                    serviceMap = "3";
+                    break;
+                default:
+                    serviceMap = "4";
+                    break;
+            }
+
+            db.collection("service_providers").whereEqualTo("service", serviceMap).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         ServiceProvider serviceProvider = doc.toObject(ServiceProvider.class);
