@@ -140,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
 
             db.collection("service_providers").whereEqualTo("service", serviceMap).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    serviceProviderList.clear();
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         ServiceProvider serviceProvider = doc.toObject(ServiceProvider.class);
                         serviceProviderList.add(serviceProvider);
