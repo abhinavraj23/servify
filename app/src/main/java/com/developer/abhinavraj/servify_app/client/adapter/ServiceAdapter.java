@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.avatarfirst.avatargenlib.AvatarConstants;
-import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.developer.abhinavraj.servify_app.R;
 import com.developer.abhinavraj.servify_app.client.database.models.ServiceProvider;
 
@@ -20,11 +18,11 @@ import java.util.List;
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
 
+    public BookListener onClickListener;
     private List<ServiceProvider> serviceProviders;
     private Context context;
-    public BookListener onClickListener;
 
-    public ServiceAdapter(Context context,List<ServiceProvider> serviceProviders, BookListener bookListener) {
+    public ServiceAdapter(Context context, List<ServiceProvider> serviceProviders, BookListener bookListener) {
         this.serviceProviders = serviceProviders;
         this.context = context;
         this.onClickListener = bookListener;
@@ -68,7 +66,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         profileName.setText(String.format("%s %s", serviceProvider.getFirstName(), serviceProvider.getLastName()));
         profileAge.setText(serviceProvider.getAge());
-        profileDistance.setText(0);
+        profileDistance.setText(serviceProvider.getGender().equals("0") ? "M" : "F");
         profileRating.setText(String.valueOf(serviceProvider.getRating()));
     }
 
@@ -95,12 +93,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             profileDistance = view.findViewById(R.id.profile_distance);
             profileRating = view.findViewById(R.id.profile_rating);
 
-            cardView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    onClickListener.OnClick(v, getAdapterPosition());
-                    return true;
-                }
+            cardView.setOnLongClickListener(v -> {
+                onClickListener.OnClick(v, getAdapterPosition());
+                return true;
             });
         }
     }

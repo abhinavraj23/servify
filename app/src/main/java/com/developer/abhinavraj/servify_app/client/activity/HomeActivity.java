@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,22 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(Html.fromHtml(getResources().getString(R.string.description), Html.FROM_HTML_MODE_LEGACY));
 
-        findViewById(R.id.maid).setOnClickListener(onServiceClicked("maids"));
-        findViewById(R.id.cleaner).setOnClickListener(onServiceClicked("house_cleaners"));
-        findViewById(R.id.cook).setOnClickListener(onServiceClicked("cooks"));
-        findViewById(R.id.gardener).setOnClickListener(onServiceClicked("gardeners"));
 
-        String mEmail = mAuth.getCurrentUser().getEmail();
-
-        db.collection("customers").document(mEmail).get()
-                .addOnCompleteListener(task -> {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    assert documentSnapshot != null;
-                    user = documentSnapshot.toObject(User.class);
-                });
-
-
-        serviceProviderList = new ArrayList<>();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
@@ -80,38 +66,58 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList, (v, position) -> {
-            AlertDialog dialog;
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
-            alertDialog.setTitle(serviceProviderList.get(position).getFirstName());
-            alertDialog.setMessage("Do you want to Book the Service Provider?");
-            alertDialog.setCancelable(true);
-            alertDialog.setPositiveButton("No", (dialog1, which) -> dialog1.dismiss());
-            String serviceEmail = serviceProviderList.get(position).getEmail();
 
-            alertDialog.setNegativeButton("Yes", (dialog12, which) -> {
-                //Add to database or something like that TODO
-                db.collection("service_providers").document(serviceEmail).collection("current_user").get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            if (!queryDocumentSnapshots.isEmpty()) {
-                                queryDocumentSnapshots.forEach(queryDocumentSnapshot -> {
-                                    if (queryDocumentSnapshot.get("email") != mEmail) {
-                                        Toast.makeText(HomeActivity.this, "Service Provider is currently not available", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } else {
-                                db.collection("service_providers").document(serviceEmail).collection("current_user")
-                                        .document(mEmail).set(user).addOnCompleteListener(task ->
-                                        Toast.makeText(HomeActivity.this, "Booking successfully completed!", Toast.LENGTH_SHORT).show());
-                            }
+        String mEmail = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
+
+        assert mEmail != null;
+        db.collection("customers").document(mEmail).get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    assert documentSnapshot != null;
+                    user = documentSnapshot.toObject(User.class);
+
+                    serviceProviderList = new ArrayList<>();
+
+                    findViewById(R.id.maid).setOnClickListener(onServiceClicked("maids"));
+                    findViewById(R.id.cleaner).setOnClickListener(onServiceClicked("house_cleaners"));
+                    findViewById(R.id.cook).setOnClickListener(onServiceClicked("cooks"));
+                    findViewById(R.id.gardener).setOnClickListener(onServiceClicked("gardeners"));
+
+                    serviceAdapter = new ServiceAdapter(getApplicationContext(), serviceProviderList, (v, position) -> {
+                        AlertDialog dialog;
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+                        alertDialog.setTitle(serviceProviderList.get(position).getFirstName());
+                        alertDialog.setMessage("Do you want to Book the Service Provider?");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setPositiveButton("No", (dialog1, which) -> dialog1.dismiss());
+                        String serviceEmail = serviceProviderList.get(position).getEmail();
+
+                        alertDialog.setNegativeButton("Yes", (dialog12, which) -> {
+                            //Add to database or something like that TODO
+                            db.collection("service_providers").document(serviceEmail).collection("current_user").get()
+                                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            queryDocumentSnapshots.forEach(queryDocumentSnapshot -> {
+                                                if (queryDocumentSnapshot.get("email") != mEmail) {
+                                                    Toast.makeText(HomeActivity.this, "Service Provider is currently not available", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            db.collection("service_providers").document(serviceEmail).collection("current_user")
+                                                    .document(mEmail).set(user).addOnCompleteListener(task1 ->
+                                                    Toast.makeText(HomeActivity.this, "Booking successfully completed!", Toast.LENGTH_SHORT).show());
+                                        }
+                                    });
                         });
-            });
 
-            dialog = alertDialog.create();
-            dialog.show();
-        });
+                        dialog = alertDialog.create();
+                        dialog.show();
+                    });
 
-        recyclerView.setAdapter(serviceAdapter);
+                    recyclerView.setAdapter(serviceAdapter);
+
+                });
+
     }
 
     private View.OnClickListener onServiceClicked(String serviceName) {
