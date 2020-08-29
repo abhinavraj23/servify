@@ -92,6 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             if (task1.isSuccessful()) {
                                                 Log.d(getApplicationContext().toString(), "User profile updated.");
                                                 startActivity(new Intent(SignUpActivity.this, AddressActivity.class));
+                                                finish();
                                             } else {
                                                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
                                             }

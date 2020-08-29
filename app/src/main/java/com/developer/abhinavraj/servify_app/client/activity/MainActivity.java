@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         login.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
         signUp.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SignUpActivity.class)));
-
     }
 
     @Override
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
-            finish();
         }
     }
 }

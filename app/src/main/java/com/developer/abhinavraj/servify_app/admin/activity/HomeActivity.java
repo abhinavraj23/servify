@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.wear.widget.CircledImageView;
 
 import com.developer.abhinavraj.servify_app.R;
@@ -36,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView prompt;
     private String email;
     private String currentUserId;
+    private ConstraintLayout parent;
 
     private String TAG = "HomeActivity.class";
 
@@ -44,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_admin);
         pgsBar = findViewById(R.id.pBar);
+        parent = findViewById(R.id.profile_parent);
         name = findViewById(R.id.profile_name);
         age = findViewById(R.id.profile_age);
         phNumber = findViewById(R.id.profile_number);
@@ -65,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
             pgsBar.setVisibility(View.INVISIBLE);
             if (task.isSuccessful()) {
                 if (task.getResult().size() == 0) {
+                    parent.setVisibility(View.INVISIBLE);
                     prompt.setVisibility(View.VISIBLE);
                 } else if (task.getResult().size() == 1) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -73,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                         setUserProfile(user);
                     }
                 } else {
+                    parent.setVisibility(View.INVISIBLE);
                     prompt.setVisibility(View.VISIBLE);
                 }
             } else {
