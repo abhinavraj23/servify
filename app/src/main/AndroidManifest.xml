@@ -12,7 +12,7 @@
 
         <activity android:name=".admin.activity.HomeActivity"/>
         <activity android:name=".admin.activity.LoginActivity" />
-        <activity android:name=".admin.activity.MainActivity" />
+        <activity android:name=".client.activity.MainActivity" />
         <activity android:name=".admin.activity.signUp.PasswordActivity" />
         <activity android:name=".admin.activity.signUp.AddressActivity" />
         <activity android:name=".admin.activity.signUp.SignUpActivity" />
@@ -26,7 +26,7 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <activity android:name=".client.activity.MainActivity">
+        <activity android:name=".admin.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

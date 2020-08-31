@@ -90,9 +90,7 @@ public class HomeActivity extends AppCompatActivity {
                         currentUserId = document.getId();
                         setUserProfile(user);
                     }
-                } else {
-                    parent.setVisibility(View.INVISIBLE);
-                    prompt.setVisibility(View.VISIBLE);
+                    System.out.println("YOoooooooooooo++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
