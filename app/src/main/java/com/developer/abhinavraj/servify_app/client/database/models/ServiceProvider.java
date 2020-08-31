@@ -31,7 +31,7 @@ public class ServiceProvider {
     private String city;
 
     @ColumnInfo(name = "rating")
-    private double rating;
+    private String rating;
 
     @ColumnInfo(name = "service")
     private String service;
@@ -46,7 +46,7 @@ public class ServiceProvider {
                            String lastName,
                            String mobileNumber,
                            String age,
-                           double rating,
+                           String rating,
                            String service,
                            String gender) {
         this.email = email;
@@ -66,7 +66,7 @@ public class ServiceProvider {
                            String mobileNumber,
                            String age,
                            String city,
-                           double rating) {
+                           String rating) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -125,11 +125,11 @@ public class ServiceProvider {
         this.city = city;
     }
 
-    public double getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 

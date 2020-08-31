@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         email = mUser.getEmail();
-        final CollectionReference docRef = db.collection("service_provider").document(email).
+        final CollectionReference docRef = db.collection("service_providers").document(email).
                 collection("current_user");
 
         Toolbar toolbar = findViewById(R.id.toolbar_admin);
@@ -81,7 +81,8 @@ public class HomeActivity extends AppCompatActivity {
             pgsBar.setVisibility(View.INVISIBLE);
             if (task.isSuccessful()) {
                 if (task.getResult().size() == 0) {
-                    parent.setVisibility(View.INVISIBLE);
+                    Log.e("tp", task.getResult().toString());
+                    parent.setVisibility(View.GONE);
                     prompt.setVisibility(View.VISIBLE);
                 } else if (task.getResult().size() == 1) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -113,7 +114,10 @@ public class HomeActivity extends AppCompatActivity {
 
         complete.setOnClickListener(view -> {
             if (currentUserId != null)
-                docRef.document(currentUserId).delete();
+                docRef.document(currentUserId).delete().addOnSuccessListener(aVoid -> {
+                    parent.setVisibility(View.GONE);
+                    prompt.setVisibility(View.VISIBLE);
+                });
         });
     }
 
@@ -130,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
         age.setText(user.getAge() + " years old");
         phNumber.setText(user.getMobileNumber());
 
-        db.collection("service_provider").document(email).collection("address").document(email).get()
+        db.collection("service_providers").document(email).collection("address").document(email).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     Address address = documentSnapshot.toObject(Address.class);
                     assert address != null;
