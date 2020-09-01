@@ -29,6 +29,8 @@ public class User {
     @ColumnInfo(name = "age")
     private String age;
 
+    public User () {}
+
     @Ignore
     public User(@NonNull String email, String password) {
         this.email = email;
