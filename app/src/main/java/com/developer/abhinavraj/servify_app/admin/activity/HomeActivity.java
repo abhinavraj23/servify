@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         email = mUser.getEmail();
-        final CollectionReference docRef = db.collection("service_provider").document(email).
+        final CollectionReference docRef = db.collection("service_providers").document(email).
                 collection("current_user");
 
         Toolbar toolbar = findViewById(R.id.toolbar_admin);
@@ -89,7 +89,6 @@ public class HomeActivity extends AppCompatActivity {
                         currentUserId = document.getId();
                         setUserProfile(user);
                     }
-                    System.out.println("YOoooooooooooo++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -101,9 +100,13 @@ public class HomeActivity extends AppCompatActivity {
                 Log.w(TAG, "Listen failed.", e);
                 return;
             }
-            if (value.size() == 1) {
+            if (value.size() == 0) {
+                parent.setVisibility(View.INVISIBLE);
+                prompt.setVisibility(View.VISIBLE);
+            } else if (value.size() == 1) {
                 for (QueryDocumentSnapshot document : value) {
                     User user = document.toObject(User.class);
+                    currentUserId = document.getId();
                     setUserProfile(user);
                 }
             }

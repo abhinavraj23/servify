@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".admin.activity.HomeActivity"/>
+        <activity android:name=".admin.activity.MainActivity" />
+        <activity android:name=".admin.activity.HomeActivity" />
         <activity android:name=".admin.activity.LoginActivity" />
         <activity android:name=".client.activity.MainActivity" />
         <activity android:name=".admin.activity.signUp.PasswordActivity" />
@@ -26,7 +27,7 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <activity android:name=".admin.activity.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
